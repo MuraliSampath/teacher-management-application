@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block stylingcomponents %}
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+{% endblock %}  
+
+{% block body%}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="showTeacher">
+                <h1> LIST OF TEACHERS </h1>
+                {% if teachers %}
+                <table class="table"> <!-- Added 'table' class for Bootstrap styling -->
+                    <thead>
+                        <tr>
+                            <th> FIRSTNAME </th>
+                            <th> LASTNAME </th>
+                            <th> AGE </th>
+                            <th> DOB </th>
+                            <th> Number Of Class </th>
+                            <th> Actions </th> <!-- Added column for actions -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for teacher in teachers %}
+                        <tr>
+                            <td>{{ teacher.firstName }}</td>
+                            <td>{{ teacher.lastName }}</td>
+                            <td>{{ teacher.age }}</td>
+                            <td>{{ teacher.dob }}</td>
+                            <td>{{ teacher.numberOfClass }}</td>
+                            <td>
+                                <button type="button" onclick = updateFunction({{teacher.id}}) >UPDATE</button>
+                                <button type="button"  onclick = deleteFunction({{teacher.id}})>DELETE</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="row justify-content-center"><h5>There is NO Teacher Availabe</h5></div>
+                {% endif %}
+                
+                <!-- Add Teacher button outside of the table, centered -->
+                <div class="text-center">
+                    <button type="button" onclick="redirectToAllTeacherPage()">RESET FILTERS</button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<script>
+    // JavaScript function to redirect to the add teacher page
+    function redirectToAllTeacherPage() {
+        window.location.href = '/teacher/showteacher'; // Adjust the URL as per your application
+    }
+
+    function deleteFunction(id){
+        let url = '/teacher/deleteteacher/' + id
+        window.location.href = url
+    }
+
+    function updateFunction(id){
+        let url = '/teacher/update/' + id
+        window.location.href = url
+    }
+</script>
+
+{% endblock%}
